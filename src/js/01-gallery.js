@@ -25,14 +25,21 @@ galleryEl.insertAdjacentHTML('afterbegin', createGalleryElements(galleryItems))
 
 const getLargeImg = function (event) {
     event.preventDefault();
-    const ImgUrl = galleryEl.querySelector("[data-source]");
-    const imgUrlValue = ImgUrl.dataset.source;
-        const instance = basicLightbox.create(`
-    <img src="${imgUrlValue}" width="800" height="600">
-`)
+        if (event.target) {
+             const instance = basicLightbox.create(         
+            `<img src="${event.target.dataset.source}" width="800" height="600">`
+             )
+            instance.show(() => galleryEl.addEventListener("keydown", function (event) {
+    if (event.code === "Escape") {
+        instance.close()
+        console.log(event)
+    }
+}))
+        }
     
-    instance.show()
-    console.log(event)
+    
 }
-// instance.close()
+    
+
 galleryEl.addEventListener("click", getLargeImg)
+// galleryEl.addEventListener("keydown", closeModal )
