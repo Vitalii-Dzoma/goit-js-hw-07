@@ -25,20 +25,23 @@ galleryEl.insertAdjacentHTML('afterbegin', createGalleryElements(galleryItems))
 
 const getLargeImg = function (event) {
     event.preventDefault();
-        if (event.target) {
+  if (event.target.className === 'gallery__image') {
+
              const instance = basicLightbox.create(         
             `<img src="${event.target.dataset.source}" width="800" height="600">`
              )
-            instance.show(() => galleryEl.addEventListener("keydown", function (event) {
-    if (event.code === "Escape") {
-        instance.close()
+    instance.show(() => galleryEl.addEventListener("keydown", function attachKeyCode(event) {
+      if (event.code === "Escape") {
+        instance.close(() => galleryEl.removeEventListener("keydown", attachKeyCode))
+        }
+    }))
         console.log(event)
     }
-}))
-        }
-    
-    
 }
+        
+    
+    
+
     
 
 galleryEl.addEventListener("click", getLargeImg)
